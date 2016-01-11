@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 10.00
 
 Project("{3B998C5C-7716-8C10-C8F2-C5CB947F8CFE}") = "Deloreatron", "Assembly-CSharp-firstpass.csproj", "{BBF951E8-5019-AA6B-1858-53303A03346B}"
 EndProject
+Project("{3B998C5C-7716-8C10-C8F2-C5CB947F8CFE}") = "Deloreatron", "Assembly-CSharp.csproj", "{33A7B4E7-8A9A-4686-5D80-FAC124A74E41}"
+EndProject
 Project("{3B998C5C-7716-8C10-C8F2-C5CB947F8CFE}") = "Deloreatron", "Assembly-CSharp-Editor.csproj", "{B5F67600-0B14-42AC-41A1-4B31C8CA91C4}"
 EndProject
 Global
@@ -15,6 +17,10 @@ Global
 		{BBF951E8-5019-AA6B-1858-53303A03346B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BBF951E8-5019-AA6B-1858-53303A03346B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BBF951E8-5019-AA6B-1858-53303A03346B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{33A7B4E7-8A9A-4686-5D80-FAC124A74E41}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{33A7B4E7-8A9A-4686-5D80-FAC124A74E41}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{33A7B4E7-8A9A-4686-5D80-FAC124A74E41}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{33A7B4E7-8A9A-4686-5D80-FAC124A74E41}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B5F67600-0B14-42AC-41A1-4B31C8CA91C4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B5F67600-0B14-42AC-41A1-4B31C8CA91C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B5F67600-0B14-42AC-41A1-4B31C8CA91C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -23,7 +29,7 @@ Global
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
-															GlobalSection(MonoDevelopProperties) = preSolution
+																																																GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = Assembly-CSharp.csproj
 		Policies = $0
 		$0.TextStylePolicy = $1

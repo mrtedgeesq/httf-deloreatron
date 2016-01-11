@@ -21,7 +21,8 @@ namespace UnityStandardAssets.Vehicles.Car
         [SerializeField] private CarDriveType m_CarDriveType = CarDriveType.FourWheelDrive;
         [SerializeField] private WheelCollider[] m_WheelColliders = new WheelCollider[4];
         [SerializeField] private GameObject[] m_WheelMeshes = new GameObject[4];
-        [SerializeField] private WheelEffects[] m_WheelEffects = new WheelEffects[4];
+        [SerializeField] private WheelEffects[] m_WheelEffects = new WheelEffects[2];
+        [SerializeField] private FlameWheelEffects[] m_FlameEffects = new FlameWheelEffects[2];
         [SerializeField] private Vector3 m_CentreOfMassOffset;
         [SerializeField] private float m_MaximumSteerAngle;
         [Range(0, 1)] [SerializeField] private float m_SteerHelper; // 0 is raw physics , 1 the car will grip in the direction it is facing
@@ -48,6 +49,7 @@ namespace UnityStandardAssets.Vehicles.Car
         private const float k_ReversingThreshold = 0.01f;
 
         public bool Skidding { get; private set; }
+        public bool Flaming { get; private set; }
         public float BrakeInput { get; private set; }
         public float CurrentSteerAngle{ get { return m_SteerAngle; }}
         public float CurrentSpeed{ get { return m_Rigidbody.velocity.magnitude*2.23693629f; }}
@@ -168,6 +170,7 @@ namespace UnityStandardAssets.Vehicles.Car
 
             AddDownForce();
             CheckForWheelSpin();
+            CheckForFlame();
             TractionControl();
         }
 
@@ -262,6 +265,41 @@ namespace UnityStandardAssets.Vehicles.Car
                                                          m_WheelColliders[0].attachedRigidbody.velocity.magnitude);
         }
 
+        Vector3 lastPoint;
+        bool hasLastPoint;
+
+        private void CheckForFlame()
+        {
+            // is the tire slipping above the given threshhold
+            if (CurrentSpeed > 44)
+            {
+                m_FlameEffects[0].EmitFlames();
+                m_FlameEffects[1].EmitFlames();
+
+                if (hasLastPoint)
+                {
+                    Vector3 thisPoint = transform.position;
+
+                    float distance = Vector3.Distance(thisPoint, lastPoint);
+                    if (distance > 2)
+                    {
+                        GameObject colliderKeeper = new GameObject("collider");
+                        BoxCollider bc = colliderKeeper.AddComponent<BoxCollider>();
+                        colliderKeeper.transform.position = thisPoint;
+                        colliderKeeper.transform.LookAt(lastPoint);
+                        bc.size = new Vector3(1, 1, 1);
+                    }
+                }
+
+                lastPoint = transform.position;
+                hasLastPoint = true;
+            }
+            else
+            {
+                m_FlameEffects[0].EndFlameTrail();
+                m_FlameEffects[1].EndFlameTrail();
+            }
+        }
 
         // checks if the wheels are spinning and is so does three things
         // 1) emits particles
@@ -271,7 +309,7 @@ namespace UnityStandardAssets.Vehicles.Car
         private void CheckForWheelSpin()
         {
             // loop through all wheels
-            for (int i = 0; i < 4; i++)
+            for (int i = 0; i < 2; i++) //assume 1 and 2 are non flaming
             {
                 WheelHit wheelHit;
                 m_WheelColliders[i].GetGroundHit(out wheelHit);
@@ -354,7 +392,7 @@ namespace UnityStandardAssets.Vehicles.Car
 
         private bool AnySkidSoundPlaying()
         {
-            for (int i = 0; i < 4; i++)
+            for (int i = 0; i < 2; i++)
             {
                 if (m_WheelEffects[i].PlayingAudio)
                 {
